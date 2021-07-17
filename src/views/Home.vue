@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    This is where sorting will happen.
+    <SortingPage />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import SortingPage from "@/components/SortingPage.vue";
 
 export default {
-  name: "Home",
+  name: "home",
   components: {
-    HelloWorld,
+    SortingPage,
   },
 };
 </script>
