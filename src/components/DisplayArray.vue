@@ -1,5 +1,10 @@
 <template>
-  <div v-for="item in array" :key="item" :style="{ height: item * 20 + 'px' }">
+  <div
+    v-for="(item, index) in array"
+    :key="item"
+    :style="{ height: item * 20 + 'px' }"
+    :class="getClassName(item, index)"
+  >
     {{ item }}
   </div>
 </template>
@@ -9,6 +14,15 @@ export default {
   name: "display-array",
   props: {
     array: Array,
+    active: Array,
+    done: Number,
+  },
+  methods: {
+    getClassName(item, index) {
+      if (index >= this.done) return "done";
+
+      return this.active.includes(item) ? "active" : "";
+    },
   },
 };
 </script>
@@ -19,5 +33,13 @@ div {
   background-color: #222;
   width: 30px;
   margin-right: 5px;
+}
+
+div.active {
+  background-color: #42b983;
+}
+
+div.done {
+  background-color: rgb(204, 216, 29);
 }
 </style>
