@@ -1,19 +1,21 @@
 <template>
-  <div>
-    <DisplayArray :array="array" :active="active" :done="done" />
+  <div id="main">
+    <div
+      v-for="(item, index) in array"
+      :key="item"
+      :style="{ height: item * 20 + 'px' }"
+      :class="'col ' + getClassName(item, index)"
+    >
+      {{ item }}
+    </div>
   </div>
   <p v-if="!done">Done!</p>
   <button v-on:click="bubbleSort" :disabled="started">Start</button>
 </template>
 
 <script>
-import DisplayArray from "@/components/DisplayArray.vue";
-
 export default {
   name: "sorting-page",
-  components: {
-    DisplayArray,
-  },
   data() {
     return {
       array: [],
@@ -23,12 +25,10 @@ export default {
     };
   },
   methods: {
-    generateRandomArray() {
-      var array = Array(10)
-        .fill(1)
-        .map((x, y) => x + y);
+    getClassName(item, index) {
+      if (index >= this.done) return "done";
 
-      return _.shuffle(array);
+      return this.active.includes(item) ? "active" : "";
     },
 
     sleep(milliseconds) {
@@ -55,14 +55,18 @@ export default {
     },
   },
   created() {
-    this.array = this.generateRandomArray();
+    this.array = _.shuffle(
+      Array(10)
+        .fill(1)
+        .map((x, y) => x + y)
+    );
     this.done = this.array.length;
   },
 };
 </script>
 
 <style scoped>
-div {
+div#main {
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -75,5 +79,20 @@ button {
   border-radius: 3px;
   padding: 6px;
   width: 80px;
+}
+
+div.col {
+  color: white;
+  background-color: #222;
+  width: 30px;
+  margin-right: 5px;
+}
+
+div.active {
+  background-color: #42b983;
+}
+
+div.done {
+  background-color: rgb(204, 216, 29);
 }
 </style>
