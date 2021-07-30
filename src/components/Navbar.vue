@@ -1,7 +1,8 @@
 <template>
   <div id="nav">
-    <router-link to="/">BubbleSort</router-link> |
-    <router-link to="/insertionSort">InsertionSort</router-link>
+    <router-link to="/">Bubble Sort</router-link> |
+    <router-link to="/insertionSort">Insertion Sort</router-link> |
+    <router-link to="/selectionSort">Selection Sort</router-link>
   </div>
 </template>
 

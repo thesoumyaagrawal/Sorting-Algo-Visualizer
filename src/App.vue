@@ -35,4 +35,39 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+div.main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 200px;
+}
+
+button {
+  background-color: #42b983;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 6px;
+  width: 80px;
+}
+
+div.col {
+  color: white;
+  background-color: #222;
+  width: 30px;
+  margin-right: 5px;
+}
+
+div.active {
+  background-color: #42b983;
+}
+
+div.done {
+  background-color: rgb(204, 216, 29);
+}
+
+div.current {
+  background-color: red;
+}
 </style>

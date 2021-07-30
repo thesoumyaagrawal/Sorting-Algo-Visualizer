@@ -1,21 +1,21 @@
 <template>
-  <div id="main">
+  <p v-if="!done">Done!</p>
+  <button v-on:click="bubbleSort" :disabled="started">Start</button>
+  <div class="main">
     <div
       v-for="(item, index) in array"
       :key="item"
       :style="{ height: item * 20 + 'px' }"
-      :class="'col ' + getClassName(item, index)"
+      :class="getClassName(item, index)"
     >
       {{ item }}
     </div>
   </div>
-  <p v-if="!done">Done!</p>
-  <button v-on:click="bubbleSort" :disabled="started">Start</button>
 </template>
 
 <script>
 export default {
-  name: "sorting-page",
+  name: "bubble-sort",
   data() {
     return {
       array: [],
@@ -26,9 +26,9 @@ export default {
   },
   methods: {
     getClassName(item, index) {
-      if (index >= this.done) return "done";
+      if (index >= this.done) return "col done";
 
-      return this.active.includes(item) ? "active" : "";
+      return this.active.includes(item) ? "col active" : "col";
     },
 
     sleep(milliseconds) {
@@ -45,7 +45,6 @@ export default {
 
           if (array[j] > array[j + 1]) {
             [array[j], array[j + 1]] = [array[j + 1], array[j]];
-            this.array = array;
           }
 
           await this.sleep(300);
@@ -55,44 +54,8 @@ export default {
     },
   },
   created() {
-    this.array = _.shuffle(
-      Array(10)
-        .fill(1)
-        .map((x, y) => x + y)
-    );
+    this.array = _.shuffle(_.range(1, 11));
     this.done = this.array.length;
   },
 };
 </script>
-
-<style scoped>
-div#main {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-button {
-  background-color: #42b983;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  padding: 6px;
-  width: 80px;
-}
-
-div.col {
-  color: white;
-  background-color: #222;
-  width: 30px;
-  margin-right: 5px;
-}
-
-div.active {
-  background-color: #42b983;
-}
-
-div.done {
-  background-color: rgb(204, 216, 29);
-}
-</style>

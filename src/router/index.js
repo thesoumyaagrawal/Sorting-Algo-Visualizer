@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import InsertionSort from "../components/InsertionSort.vue";
 import BubbleSort from "../components/BubbleSort.vue";
+import SelectionSort from "../components/SelectionSort.vue";
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: "/insertionSort",
     name: "InsertionSort",
     component: InsertionSort,
+  },
+  {
+    path: "/selectionSort",
+    name: "SelectionSort",
+    component: SelectionSort,
   },
 ];
 

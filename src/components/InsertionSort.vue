@@ -1,35 +1,60 @@
 <template>
-  <div id="main">
-    <div
-      v-for="(item, index) in array"
-      :key="item"
-      :style="{ height: item * 20 + 'px' }"
-      :class="'col ' + getClassName(item, index)"
-    >
-      {{ item }}
+  <div>
+    <p v-if="i == array.length">Done!</p>
+    <button v-on:click="insertSort" :disabled="started">Start</button>
+    <div class="main">
+      <div
+        v-for="(item, index) in array"
+        :key="'main-' + index"
+        :style="{ height: item * 20 + 'px' }"
+        :class="getClassName(index)"
+      >
+        {{ item }}
+      </div>
+    </div>
+    <div class="main">
+      <div
+        v-for="(item, index) in sorting"
+        :key="'sorting-' + index"
+        :style="{ height: item * 20 + 'px' }"
+        class="col current"
+      >
+        {{ item }}
+      </div>
     </div>
   </div>
-  {{ currentElement }}
-  <p v-if="done == array.length">Done!</p>
-  <button v-on:click="insertSort" :disabled="started">Start</button>
 </template>
 
 <script>
 export default {
-  name: "sorting-page",
+  name: "insertion-sort",
   data() {
     return {
       array: [],
-      done: 0,
+      sorting: [],
+      i: -1,
       started: false,
-      currentElement: -1,
+      comparing: -1,
     };
   },
   methods: {
-    getClassName(item, index) {
-      if (index <= this.done) return "done";
+    setCurrent(current, index) {
+      this.sorting = Array(10).fill(0);
+      this.sorting[index] = current;
+    },
 
-      if (item == this.currentElement) return "current";
+    getClassName(index) {
+      let className = "col ";
+
+      if (index == this.comparing) {
+        return className + "active";
+      }
+
+      if (index < this.i) {
+        return className + "done";
+      }
+
+      return className;
     },
 
     sleep(milliseconds) {
@@ -38,70 +63,40 @@ export default {
 
     async insertSort() {
       this.started = true;
-      var array = this.array;
+      let array = this.array;
 
-      for (let i = 1; i < array.length; i++) {
-        let current = array[i];
+      for (this.i = 1; this.i < array.length; this.i++) {
+        const i = this.i;
         let j = i - 1;
-        this.done = j;
-        this.currentElement = array[i];
+
+        const current = array[i];
         array[i] = 0;
+
+        this.setCurrent(current, i);
+        this.comparing = j;
+
+        await this.sleep(500);
 
         while (j >= 0 && array[j] > current) {
           [array[j + 1], array[j]] = [array[j], 0];
-          j--;
+          this.comparing = j - 1;
+          this.setCurrent(current, j);
+
           await this.sleep(500);
+
+          j--;
         }
-        array[j + 1] = current;
 
         await this.sleep(500);
+        this.comparing = -1;
+        array[j + 1] = current;
       }
-      this.done = array.length;
+      this.sorting = Array(10).fill(0);
     },
   },
   created() {
-    this.array = _.shuffle(
-      Array(10)
-        .fill(1)
-        .map((x, y) => x + y)
-    );
-    this.done = -1;
+    this.array = _.shuffle(_.range(1, 11));
+    this.sorting = Array(10).fill(0);
   },
 };
 </script>
-
-<style scoped>
-div#main {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-button {
-  background-color: #42b983;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  padding: 6px;
-  width: 80px;
-}
-
-div.col {
-  color: white;
-  background-color: #222;
-  width: 30px;
-  margin-right: 5px;
-}
-
-div.active {
-  background-color: #42b983;
-}
-
-div.done {
-  background-color: rgb(204, 216, 29);
-}
-
-div.current {
-  background-color: red;
-}
-</style>
