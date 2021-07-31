@@ -30,7 +30,7 @@ export default {
   name: "insertion-sort",
   data() {
     return {
-      array: [],
+      array: _.shuffle(_.range(1, 11)),
       sorting: [],
       i: -1,
       started: false,
@@ -50,7 +50,7 @@ export default {
         return className + "active";
       }
 
-      if (index < this.i) {
+      if (index <= this.i) {
         return className + "done";
       }
 
@@ -93,10 +93,6 @@ export default {
       }
       this.sorting = Array(10).fill(0);
     },
-  },
-  created() {
-    this.array = _.shuffle(_.range(1, 11));
-    this.sorting = Array(10).fill(0);
   },
 };
 </script>

@@ -2,7 +2,8 @@
   <div id="nav">
     <router-link to="/">Bubble Sort</router-link> |
     <router-link to="/insertionSort">Insertion Sort</router-link> |
-    <router-link to="/selectionSort">Selection Sort</router-link>
+    <router-link to="/selectionSort">Selection Sort</router-link> |
+    <router-link to="/mergeSort">Merge Sort</router-link>
   </div>
 </template>
 
@@ -12,7 +13,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;

@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import InsertionSort from "../components/InsertionSort.vue";
 import BubbleSort from "../components/BubbleSort.vue";
 import SelectionSort from "../components/SelectionSort.vue";
+import MergeSort from "../components/MergeSort.vue";
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: "/selectionSort",
     name: "SelectionSort",
     component: SelectionSort,
+  },
+  {
+    path: "/mergeSort",
+    name: "MergeSort",
+    component: MergeSort,
   },
 ];
 
