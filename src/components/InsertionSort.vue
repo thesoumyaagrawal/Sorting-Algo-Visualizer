@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p v-if="i == array.length">Done!</p>
+    <p v-if="done === array.length">Done!</p>
     <button v-on:click="insertSort" :disabled="started">Start</button>
     <div class="main">
       <div
@@ -30,11 +30,11 @@ export default {
   name: "insertion-sort",
   data() {
     return {
-      array: _.shuffle(_.range(1, 11)),
+      array: [],
       sorting: [],
-      i: -1,
+      done: -1,
       started: false,
-      comparing: -1,
+      active: -1,
     };
   },
   methods: {
@@ -46,11 +46,11 @@ export default {
     getClassName(index) {
       let className = "col ";
 
-      if (index == this.comparing) {
+      if (index === this.active) {
         return className + "active";
       }
 
-      if (index <= this.i) {
+      if (index <= this.done) {
         return className + "done";
       }
 
@@ -65,34 +65,37 @@ export default {
       this.started = true;
       let array = this.array;
 
-      for (this.i = 1; this.i < array.length; this.i++) {
-        const i = this.i;
-        let j = i - 1;
-
+      for (let i = 0; i < array.length; i++) {
         const current = array[i];
         array[i] = 0;
 
+        let j = i - 1;
+        this.done = i;
+
         this.setCurrent(current, i);
-        this.comparing = j;
+        this.active = j;
 
         await this.sleep(500);
 
         while (j >= 0 && array[j] > current) {
-          [array[j + 1], array[j]] = [array[j], 0];
-          this.comparing = j - 1;
+          [array[j + 1], array[j]] = [array[j], array[j + 1]];
           this.setCurrent(current, j);
+          this.active = --j;
 
           await this.sleep(500);
-
-          j--;
         }
-
         await this.sleep(500);
-        this.comparing = -1;
+
         array[j + 1] = current;
       }
+      this.done = this.array.length;
+      this.active = -1;
       this.sorting = Array(10).fill(0);
     },
+  },
+
+  created() {
+    this.array = _.shuffle(_.range(1, 11));
   },
 };
 </script>

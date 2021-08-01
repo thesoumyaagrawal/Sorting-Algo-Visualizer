@@ -55,7 +55,7 @@ button {
 div.col {
   color: white;
   background-color: #222;
-  width: 30px;
+  width: 25px;
   margin-right: 5px;
 }
 

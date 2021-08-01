@@ -3,7 +3,8 @@
     <router-link to="/">Bubble Sort</router-link> |
     <router-link to="/insertionSort">Insertion Sort</router-link> |
     <router-link to="/selectionSort">Selection Sort</router-link> |
-    <router-link to="/mergeSort">Merge Sort</router-link>
+    <router-link to="/mergeSort">Merge Sort</router-link> |
+    <router-link to="/quickSort">Quick Sort</router-link>
   </div>
 </template>
 

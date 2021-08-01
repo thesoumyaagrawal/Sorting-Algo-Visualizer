@@ -1,11 +1,11 @@
 <template>
   <div>
-    <p v-if="i == array.length">Done!</p>
+    <p v-if="done === array.length">Done!</p>
     <button v-on:click="selectionSort" :disabled="started">Start</button>
     <div class="main">
       <div
         v-for="(item, index) in array"
-        :key="'main-' + index"
+        :key="`main-${index}`"
         :style="{ height: item * 20 + 'px' }"
         :class="getClassName(index)"
       >
@@ -21,24 +21,23 @@ export default {
   data() {
     return {
       array: [],
-      i: -1,
+      done: -1,
       minimum: -1,
       active: -1,
       started: false,
+      height: 0,
     };
   },
   methods: {
     getClassName(index) {
       let className = "col ";
 
-      if (index < this.i) {
+      if (index <= this.done) {
         return className + "done";
       }
-
       if (index == this.minimum) {
         return className + "current";
       }
-
       if (index == this.active) {
         return className + "active";
       }
@@ -54,24 +53,26 @@ export default {
       this.started = true;
       let array = this.array;
 
-      for (this.i = 0; this.i < array.length; this.i++) {
-        await this.sleep(1000);
-
-        this.minimum = this.i;
-        const i = this.i;
+      for (let i = 0; i < array.length; i++) {
+        this.minimum = i;
 
         for (let j = i; j < array.length; j++) {
           if (array[j] < array[this.minimum]) {
             this.minimum = j;
           }
           this.active = j;
-          await this.sleep(500);
+          await this.sleep(250);
         }
+
         [array[i], array[this.minimum]] = [array[this.minimum], array[i]];
 
-        this.minimum = -1;
         this.active = -1;
+        this.done = i;
+        this.minimum = -1;
+        await this.sleep(250);
       }
+
+      this.done = this.array.length;
     },
   },
   created() {
