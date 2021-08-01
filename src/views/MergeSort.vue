@@ -39,15 +39,14 @@ export default {
       started: false,
     };
   },
+  props: {
+    sleep: Function,
+  },
   methods: {
     getStyling(item, index) {
       const height = item * 20;
 
       return `height: ${height}px; background-color:${this.colors[index]};`;
-    },
-
-    sleep(milliseconds) {
-      return new Promise((resolve) => setTimeout(resolve, milliseconds));
     },
 
     async mergeSort() {
@@ -91,7 +90,7 @@ export default {
           right.shift();
         }
         this.fillTempArray(indexOfLeft, merged);
-        await this.sleep(500);
+        await this.sleep();
       }
       /* Removes the two merged partitions from the original array */
       this.partitions.splice(indexOfLeft, 2);
@@ -128,7 +127,7 @@ export default {
       for (let j = 0; j < merged.length; j++) {
         this.partitions[startIndex][j] = merged[j];
         this.temp.setFirstNonZeroElementToZero();
-        await this.sleep(250);
+        await this.sleep();
       }
     },
 

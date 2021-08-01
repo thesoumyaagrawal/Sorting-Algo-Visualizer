@@ -24,15 +24,14 @@ export default {
       started: false,
     };
   },
+  props: {
+    sleep: Function,
+  },
   methods: {
     getClassName(item, index) {
       if (index >= this.done) return "col done";
 
       return this.active.includes(item) ? "col active" : "col";
-    },
-
-    sleep(milliseconds) {
-      return new Promise((resolve) => setTimeout(resolve, milliseconds));
     },
 
     async bubbleSort() {
@@ -47,7 +46,7 @@ export default {
             [array[j], array[j + 1]] = [array[j + 1], array[j]];
           }
 
-          await this.sleep(300);
+          await this.sleep();
         }
         this.done--;
       }

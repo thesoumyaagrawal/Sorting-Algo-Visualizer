@@ -28,6 +28,9 @@ export default {
       height: 0,
     };
   },
+  props: {
+    sleep: Function,
+  },
   methods: {
     getClassName(index) {
       let className = "col ";
@@ -45,10 +48,6 @@ export default {
       return className;
     },
 
-    sleep(milliseconds) {
-      return new Promise((resolve) => setTimeout(resolve, milliseconds));
-    },
-
     async selectionSort() {
       this.started = true;
       let array = this.array;
@@ -61,7 +60,7 @@ export default {
             this.minimum = j;
           }
           this.active = j;
-          await this.sleep(250);
+          await this.sleep();
         }
 
         [array[i], array[this.minimum]] = [array[this.minimum], array[i]];
@@ -69,7 +68,7 @@ export default {
         this.active = -1;
         this.done = i;
         this.minimum = -1;
-        await this.sleep(250);
+        await this.sleep();
       }
 
       this.done = this.array.length;

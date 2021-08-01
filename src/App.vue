@@ -1,6 +1,17 @@
 <template>
   <Navbar />
-  <router-view />
+  <div>
+    <span>Slower</span>
+    <input
+      type="range"
+      v-model="animationSpeed"
+      min="100"
+      max="800"
+      step="25"
+    />
+    <span>Faster</span>
+  </div>
+  <router-view :sleep="sleep" />
 </template>
 
 <script>
@@ -10,6 +21,18 @@ export default {
   name: "app",
   components: {
     Navbar,
+  },
+  data() {
+    return {
+      animationSpeed: 500,
+    };
+  },
+  methods: {
+    sleep() {
+      return new Promise((resolve) =>
+        setTimeout(resolve, 900 - this.animationSpeed)
+      );
+    },
   },
 };
 </script>
@@ -40,7 +63,7 @@ div.main {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: 200px;
+  height: 250px;
 }
 
 button {

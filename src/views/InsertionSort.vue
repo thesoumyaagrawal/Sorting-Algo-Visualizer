@@ -37,6 +37,9 @@ export default {
       active: -1,
     };
   },
+  props: {
+    sleep: Function,
+  },
   methods: {
     setCurrent(current, index) {
       this.sorting = Array(10).fill(0);
@@ -57,10 +60,6 @@ export default {
       return className;
     },
 
-    sleep(milliseconds) {
-      return new Promise((resolve) => setTimeout(resolve, milliseconds));
-    },
-
     async insertSort() {
       this.started = true;
       let array = this.array;
@@ -75,16 +74,16 @@ export default {
         this.setCurrent(current, i);
         this.active = j;
 
-        await this.sleep(500);
+        await this.sleep();
 
         while (j >= 0 && array[j] > current) {
           [array[j + 1], array[j]] = [array[j], array[j + 1]];
           this.setCurrent(current, j);
           this.active = --j;
 
-          await this.sleep(500);
+          await this.sleep();
         }
-        await this.sleep(500);
+        await this.sleep();
 
         array[j + 1] = current;
       }
