@@ -59,7 +59,7 @@ export default {
   color: #42b983;
 }
 
-div.main {
+.main {
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -75,22 +75,26 @@ button {
   width: 80px;
 }
 
-div.col {
+.col {
   color: white;
   background-color: #222;
   width: 25px;
   margin-right: 5px;
 }
 
-div.active {
+.active {
   background-color: #42b983;
 }
 
-div.done {
+.done {
   background-color: rgb(204, 216, 29);
 }
 
-div.current {
+.current {
   background-color: red;
+}
+
+.smaller {
+  background: purple;
 }
 </style>
