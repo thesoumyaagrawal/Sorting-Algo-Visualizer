@@ -11,7 +11,7 @@
     />
     <span>Faster</span>
   </div>
-  <router-view :sleep="sleep" />
+  <router-view :key="key" :sleep="sleep" @clicked="handleReset" />
 </template>
 
 <script>
@@ -25,6 +25,7 @@ export default {
   data() {
     return {
       animationSpeed: 500,
+      key: 0,
     };
   },
   methods: {
@@ -32,6 +33,10 @@ export default {
       return new Promise((resolve) =>
         setTimeout(resolve, 900 - this.animationSpeed)
       );
+    },
+
+    handleReset() {
+      this.key++;
     },
   },
 };

@@ -1,32 +1,41 @@
 <template>
-  <p v-if="sortedCount === array.length">Done!</p>
-  <button v-on:click="quickSort" :disabled="started">Start</button>
-  <div class="main">
-    <div
-      v-for="(item, index) in array"
-      :key="index"
-      :style="{ height: item * 20 + 'px' }"
-      :class="getClassName(index)"
-    >
-      {{ item }}
+  <div>
+    <p v-if="sortedCount === array.length">Done!</p>
+    <button v-on:click="quickSort" :disabled="started">Start</button>
+    <button v-on:click="reset">Reset</button>
+
+    <div class="main">
+      <div
+        v-for="(item, index) in array"
+        :key="index"
+        :style="{ height: item * 20 + 'px' }"
+        :class="getClassName(index)"
+      >
+        {{ item }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+const getInitialState = () => {
+  let array = _.shuffle(_.range(1, 11));
+  let sorted = Array(array.length).fill(0);
+
+  return {
+    array: array,
+    sorted: sorted,
+    sortedCount: 0,
+    sortedIndex: -1,
+    pivot: -1,
+    active: -1,
+    started: false,
+  };
+};
+
 export default {
   name: "quick-sort",
-  data() {
-    return {
-      array: [],
-      sorted: [],
-      sortedCount: 0,
-      sortedIndex: -1,
-      pivot: -1,
-      active: -1,
-      started: false,
-    };
-  },
+  data: getInitialState,
   props: {
     sleep: Function,
   },
@@ -53,6 +62,10 @@ export default {
       return className;
     },
 
+    swap(x, y) {
+      [this.array[x], this.array[y]] = [this.array[y], this.array[x]];
+    },
+
     async quickSort() {
       this.started = true;
       var array = this.array;
@@ -62,29 +75,21 @@ export default {
         this.pivot = this.sorted.findIndex((element) => element === 0);
         this.sortedIndex = this.pivot + 1;
 
-        for (let j = this.pivot + 1; this.sorted[j] === 0; j++) {
+        for (let j = this.sortedIndex; this.sorted[j] === 0; j++) {
           await this.sleep();
-
           this.active = j;
+
           if (array[j] < array[this.pivot]) {
-            [array[j], array[this.sortedIndex]] = [
-              array[this.sortedIndex],
-              array[j],
-            ];
-            this.sortedIndex++;
+            this.swap(j, this.sortedIndex++);
           }
         }
 
         await this.sleep();
 
-        [array[this.pivot], array[this.sortedIndex - 1]] = [
-          array[this.sortedIndex - 1],
-          array[this.pivot],
-        ];
-
+        this.swap(this.pivot, this.sortedIndex - 1);
         this.pivot = this.sortedIndex - 1;
-        this.active = -1;
         this.sorted[this.pivot] = 1;
+        this.active = -1;
         this.sortedIndex = -1;
         this.sortedCount++;
 
@@ -94,10 +99,9 @@ export default {
       this.pivot = -1;
       this.active = -1;
     },
-  },
-  created() {
-    this.array = _.shuffle(_.range(1, 11));
-    this.sorted = Array(this.array.length).fill(0);
+    reset() {
+      this.$emit("clicked");
+    },
   },
 };
 </script>

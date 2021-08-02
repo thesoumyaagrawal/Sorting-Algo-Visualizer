@@ -2,6 +2,8 @@
   <div>
     <p v-if="partitions.length === 1 && this.temp.length === 0">Done!</p>
     <button v-on:click="mergeSort" :disabled="started">Start</button>
+    <button v-on:click="reset">Reset</button>
+
     <div class="main">
       <template v-for="(partition, partition_index) in partitions">
         <div
@@ -28,17 +30,21 @@
 </template>
 
 <script>
+const getInitialState = () => {
+  let partitions = _.shuffle(_.range(1, 11)).map((element) => [element]);
+
+  return {
+    partitions: partitions,
+    length: partitions.length,
+    colors: [],
+    temp: [],
+    started: false,
+  };
+};
+
 export default {
   name: "merge-sort",
-  data() {
-    return {
-      partitions: [],
-      length: 0,
-      colors: [],
-      temp: [],
-      started: false,
-    };
-  },
+  data: getInitialState,
   props: {
     sleep: Function,
   },
@@ -52,6 +58,11 @@ export default {
     async mergeSort() {
       this.started = true;
       let partitions = this.partitions;
+      for (let i = 0; i < this.partitions.length; i++) {
+        this.colors.push(this.getColor(i));
+      }
+
+      await this.sleep();
 
       while (partitions.length > 1) {
         for (let i = 0; i < partitions.length - 1; i++) {
@@ -160,14 +171,9 @@ export default {
 
       return `rgb(${color.red}, ${color.green}, ${color.blue})`;
     },
-  },
-  created() {
-    this.partitions = _.shuffle(_.range(1, 11)).map((element) => [element]);
-    this.length = this.partitions.length;
-
-    for (let i = 0; i < this.partitions.length; i++) {
-      this.colors.push(this.getColor(i));
-    }
+    reset() {
+      this.$emit("clicked");
+    },
   },
 };
 </script>

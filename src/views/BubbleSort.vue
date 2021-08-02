@@ -1,29 +1,35 @@
 <template>
-  <p v-if="!done">Done!</p>
-  <button v-on:click="bubbleSort" :disabled="started">Start</button>
-  <div class="main">
-    <div
-      v-for="(item, index) in array"
-      :key="item"
-      :style="{ height: item * 20 + 'px' }"
-      :class="getClassName(item, index)"
-    >
-      {{ item }}
+  <div>
+    <p v-if="!done">Done!</p>
+    <button v-on:click="bubbleSort" :disabled="started">Start</button>
+    <button v-on:click="reset">Reset</button>
+    <div class="main">
+      <div
+        v-for="(item, index) in array"
+        :key="item"
+        :style="{ height: item * 20 + 'px' }"
+        :class="getClassName(item, index)"
+      >
+        {{ item }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+const getInitialState = () => {
+  let array = _.shuffle(_.range(1, 11));
+  return {
+    array: array,
+    active: [],
+    done: array.length,
+    started: false,
+  };
+};
+
 export default {
   name: "bubble-sort",
-  data() {
-    return {
-      array: [],
-      active: [],
-      done: 0,
-      started: false,
-    };
-  },
+  data: getInitialState,
   props: {
     sleep: Function,
   },
@@ -51,10 +57,9 @@ export default {
         this.done--;
       }
     },
-  },
-  created() {
-    this.array = _.shuffle(_.range(1, 11));
-    this.done = this.array.length;
+    reset() {
+      this.$emit("clicked");
+    },
   },
 };
 </script>

@@ -2,6 +2,8 @@
   <div>
     <p v-if="done === array.length">Done!</p>
     <button v-on:click="selectionSort" :disabled="started">Start</button>
+    <button v-on:click="reset">Reset</button>
+
     <div class="main">
       <div
         v-for="(item, index) in array"
@@ -16,18 +18,23 @@
 </template>
 
 <script>
+const getInitialState = () => {
+  let array = _.shuffle(_.range(1, 11));
+
+  return {
+    array: array,
+    done: -1,
+    minimum: -1,
+    active: -1,
+    started: false,
+    height: 0,
+    componentKey: 0,
+  };
+};
+
 export default {
   name: "selection-sort",
-  data() {
-    return {
-      array: [],
-      done: -1,
-      minimum: -1,
-      active: -1,
-      started: false,
-      height: 0,
-    };
-  },
+  data: getInitialState,
   props: {
     sleep: Function,
   },
@@ -73,9 +80,9 @@ export default {
 
       this.done = this.array.length;
     },
-  },
-  created() {
-    this.array = _.shuffle(_.range(1, 11));
+    reset() {
+      this.$emit("clicked");
+    },
   },
 };
 </script>
