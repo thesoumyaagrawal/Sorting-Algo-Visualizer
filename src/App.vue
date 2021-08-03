@@ -72,31 +72,36 @@ export default {
 }
 
 button {
-  background-color: #42b983;
+  background: #42b983;
   color: white;
   border: none;
   border-radius: 3px;
   padding: 6px;
   width: 80px;
+  cursor: pointer;
+}
+
+button.reset {
+  background: red;
 }
 
 .col {
   color: white;
-  background-color: #222;
+  background: #222;
   width: 25px;
   margin-right: 5px;
 }
 
 .active {
-  background-color: #42b983;
+  background: #42b983;
 }
 
 .done {
-  background-color: rgb(204, 216, 29);
+  background: rgb(204, 216, 29);
 }
 
 .current {
-  background-color: red;
+  background: red;
 }
 
 .smaller {

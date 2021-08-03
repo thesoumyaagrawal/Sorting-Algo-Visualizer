@@ -2,7 +2,7 @@
   <div>
     <p v-if="partitions.length === 1 && this.temp.length === 0">Done!</p>
     <button v-on:click="mergeSort" :disabled="started">Start</button>
-    <button v-on:click="reset">Reset</button>
+    <button v-on:click="reset" class="reset">Reset</button>
 
     <div class="main">
       <template v-for="(partition, partition_index) in partitions">
@@ -103,11 +103,8 @@ export default {
         this.fillTempArray(indexOfLeft, merged);
         await this.sleep();
       }
-      /* Removes the two merged partitions from the original array */
-      this.partitions.splice(indexOfLeft, 2);
-
-      /* Filling the empty spaces with zeros is necessary to keep the other elements at the right index when displayed */
-      this.partitions.splice(indexOfLeft, 0, [...Array(merged.length).fill(0)]);
+      /* Replaces the merged partitions with an array of zeroes to keep the other elements at the right index */
+      this.partitions.splice(indexOfLeft, 2, [...Array(merged.length).fill(0)]);
 
       /* The merged array keeps the color of the left partition */
       this.colors.splice(indexOfLeft + 1, 1);
@@ -115,22 +112,21 @@ export default {
       return merged;
     },
 
-    fillTempArray(startIndex, merged) {
+    fillTempArray(indexOfLeft, merged) {
       /* "temp" is used to display the result of merging.
          Padding zeroes are used to display it at the right index.
          (if an element is zero, it doesn't appear visually, but takes up the same space)
       */
-      this.temp = [];
-      if (startIndex === 0) {
-        this.temp = [...merged, ...Array(this.length - merged.length).fill(0)];
-      } else {
-        for (let i = 0; i < startIndex; i++) {
-          this.temp.push(...Array(this.partitions[i].length).fill(0));
-        }
-        this.temp.push(
-          ...merged,
-          ...Array(this.length - merged.length - this.temp.length).fill(0)
-        );
+      this.temp = Array(this.length).fill(0);
+
+      let mergedStarts = 0;
+      for (let i = 0; i < indexOfLeft; i++) {
+        mergedStarts += this.partitions[i].length;
+      }
+
+      let mergeIndex = 0;
+      while (mergeIndex !== merged.length) {
+        this.temp[mergedStarts++] = merged[mergeIndex++];
       }
     },
 

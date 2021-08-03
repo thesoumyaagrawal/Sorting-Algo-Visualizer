@@ -2,7 +2,7 @@
   <div>
     <p v-if="sortedCount === array.length">Done!</p>
     <button v-on:click="quickSort" :disabled="started">Start</button>
-    <button v-on:click="reset">Reset</button>
+    <button v-on:click="reset" class="reset">Reset</button>
 
     <div class="main">
       <div

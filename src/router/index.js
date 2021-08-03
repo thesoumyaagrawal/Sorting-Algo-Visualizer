@@ -4,6 +4,8 @@ import BubbleSort from "../views/BubbleSort.vue";
 import SelectionSort from "../views/SelectionSort.vue";
 import MergeSort from "../views/MergeSort.vue";
 import QuickSort from "../views/QuickSort.vue";
+import CountSort from "../views/CountSort.vue";
+import RadixSort from "../views/RadixSort.vue";
 
 const routes = [
   {
@@ -30,6 +32,16 @@ const routes = [
     path: "/quickSort",
     name: "QuickSort",
     component: QuickSort,
+  },
+  {
+    path: "/countSort",
+    name: "CountSort",
+    component: CountSort,
+  },
+  {
+    path: "/radixSort",
+    name: "RadixSort",
+    component: RadixSort,
   },
 ];
 

@@ -2,7 +2,7 @@
   <div>
     <p v-if="!done">Done!</p>
     <button v-on:click="bubbleSort" :disabled="started">Start</button>
-    <button v-on:click="reset">Reset</button>
+    <button v-on:click="reset" class="reset">Reset</button>
     <div class="main">
       <div
         v-for="(item, index) in array"
