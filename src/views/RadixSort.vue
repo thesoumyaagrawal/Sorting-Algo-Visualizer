@@ -1,52 +1,64 @@
 <template>
   <div>
-    <p v-if="false">Done!</p>
-    <button v-on:click="radixSort" :disabled="started">Start</button>
-    <button v-on:click="reset" class="reset">Reset</button>
+    <Header
+      :done="maxDigitCount === index"
+      :started="started"
+      @sort="radixSort"
+      @reset="reset"
+    />
 
     <div class="radix-main">
       <div
-        v-for="(item, index) in array"
-        :key="index"
-        :class="getClassName(item)"
+        v-for="(number, numberIndex) in array"
+        :key="numberIndex"
+        :class="getClassName(number)"
       >
-        {{ item }}
+        <DisplayNumber :number="number" :index="index" />
       </div>
     </div>
     <div class="radix-bucket">
-      <div v-for="(bucket, index) in buckets" :key="index">
+      <div v-for="(bucket, bucketIndex) in buckets" :key="bucketIndex">
         <div
-          v-for="number in bucket"
-          :key="number + '-' + index"
-          :class="getClassName(number)"
+          v-for="(number, numberIndex) in bucket"
+          :key="numberIndex"
+          :class="getClassName(number) + ' bucket'"
         >
-          {{ number }}
+          <DisplayNumber :number="number" :index="index" />
         </div>
-        <div class="bucket-indicator">{{ index }}</div>
+        <div class="bucket-indicator">{{ bucketIndex }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import DisplayNumber from "@/components/DisplayNumber.vue";
+import Header from "@/components/Header.vue";
+
 const getInitialState = () => {
   let array = [];
+  let buckets = [];
+  let maxDigitCount = 0;
 
-  /* !TODO: rewrite this */
   for (let i = 0; i < 15; i++) {
-    array.push(_.random(i * 2 + 1, i * 700 + 10));
+    /* !TODO: rewrite this */
+    array.push(_.random(i * 2 + 1, i * 700 + 10).toString());
+    if (array[i].length > maxDigitCount) {
+      maxDigitCount = array[i].length;
+    }
   }
 
-  array = _.shuffle(array).map((element) => element.toString());
+  array = _.shuffle(array);
 
-  let buckets = [];
   for (let i = 0; i < 10; i++) {
     buckets.push([...Array(10).fill("0")]);
   }
 
   return {
     array: array,
+    maxDigitCount: maxDigitCount,
     buckets: buckets,
+    index: -1,
     started: false,
   };
 };
@@ -57,77 +69,61 @@ export default {
   props: {
     sleep: Function,
   },
+  components: {
+    DisplayNumber,
+    Header,
+  },
   methods: {
     async radixSort() {
       this.started = true;
-      let maxDigitCount = this.getMaxDigitCount();
 
-      for (let n = 0; n < maxDigitCount; n++) {
-        await this.putNumbersIntoBuckets(n);
+      for (this.index = 0; this.index < this.maxDigitCount; this.index++) {
+        await this.putNumbersIntoBuckets();
         await this.copyBackFromBuckets();
       }
     },
 
     getClassName(number) {
       if (number === "0") {
-        return "radix-element-empty";
+        return "radix-element empty";
       }
       return "radix-element";
     },
 
-    getMaxDigitCount() {
-      let maxDigitCount = 0;
-
-      for (let i = 0; i < this.array.length; i++) {
-        if (this.array[i].length > maxDigitCount) {
-          maxDigitCount = this.array[i].length;
-        }
-      }
-      return maxDigitCount;
-    },
-
     async copyBackFromBuckets() {
       let count = 0;
-      for (let i = 0; i < this.buckets.length; i++) {
-        for (let j = 0; j < this.buckets[i].length; j++) {
-          if (this.buckets[i][j] !== "0") {
+      for (const bucket of this.buckets) {
+        for (let i = 0; i < bucket.length; i++) {
+          if (bucket[i] !== "0") {
             await this.sleep();
-            this.array[count++] = this.buckets[i][j];
-            this.buckets[i][j] = "0";
-            j--;
+            this.array[count++] = bucket[i];
+            bucket[i] = "0";
           }
         }
       }
     },
 
-    async putNumbersIntoBuckets(i) {
-      for (let j = 0; j < this.array.length; j++) {
+    async putNumbersIntoBuckets() {
+      for (let i = 0; i < this.array.length; i++) {
         await this.sleep();
-        let number = this.array[j];
-        this.array[j] = "0";
-        let compareDigitAt = number.length - i - 1;
 
-        /* if the number has a digit at the nth position, put the number into */
-        if (compareDigitAt >= 0) {
-          let digit = Number(number[compareDigitAt]);
-          this.buckets[digit].shift();
-          this.buckets[digit].push(number);
-        } else {
-          this.buckets[0].shift();
-          this.buckets[0].push(number);
+        let digit = 0;
+        let number = this.array[i];
+        let currentIndex = number.length - this.index - 1;
+
+        this.array[i] = "0";
+
+        if (currentIndex >= 0) {
+          digit = Number(number[currentIndex]);
         }
+
+        this.buckets[digit].shift();
+        this.buckets[digit].push(number);
       }
     },
 
     reset() {
       this.$emit("clicked");
-    },
-
-    getStyling(index, item) {
-      return {
-        height: (index + 1) * 20 + "px",
-        background: `hsl(0, 0%, ${90 - item * 15}%)`,
-      };
     },
   },
 };
@@ -146,30 +142,25 @@ export default {
   justify-content: center;
 }
 
-.radix-bucket-element {
-  display: flex;
-  direction: columns;
-  justify-content: center;
-}
-
 .bucket-indicator {
-  margin: 0 2px 0 2px;
   width: 50px;
   border-top: 1px solid black;
+  padding-top: 2px;
+  margin: 3px 2px 0 2px;
 }
 
 .radix-element {
-  display: block;
   width: 50px;
-  text-align: center;
   border: 1px solid black;
   margin: 0 2px 0 2px;
 }
 
-.radix-element-empty {
+.bucket {
+  margin: 2px 0 2px 0;
+}
+
+.empty {
   color: transparent;
-  width: 50px;
-  text-align: center;
-  margin: 0 2px 0 2px;
+  border: 1px solid transparent;
 }
 </style>

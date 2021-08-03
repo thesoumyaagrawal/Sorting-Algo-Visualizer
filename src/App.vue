@@ -65,46 +65,48 @@ export default {
 }
 
 .main {
+  height: 250px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: 250px;
 }
 
 button {
-  background: #42b983;
+  width: 80px;
+  background: #8bc34a;
   color: white;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
+  margin: 2px;
   padding: 6px;
-  width: 80px;
   cursor: pointer;
 }
 
-button.reset {
-  background: red;
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .col {
+  width: 25px;
   color: white;
   background: #222;
-  width: 25px;
   margin-right: 5px;
 }
 
 .active {
-  background: #42b983;
+  background: #6b9b37;
 }
 
 .done {
-  background: rgb(204, 216, 29);
+  background: #ffeb3b;
 }
 
 .current {
-  background: red;
+  background: #f44336;
 }
 
 .smaller {
-  background: purple;
+  background: #9c27b0;
 }
 </style>

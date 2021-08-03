@@ -1,8 +1,11 @@
 <template>
   <div>
-    <p v-if="false">Done!</p>
-    <button v-on:click="countSort" :disabled="started">Start</button>
-    <button v-on:click="reset" class="reset">Reset</button>
+    <Header
+      :done="count.length === 0"
+      :started="started"
+      @sort="countSort"
+      @reset="reset"
+    />
 
     <div class="main">
       <div
@@ -28,6 +31,8 @@
 </template>
 
 <script>
+import Header from "@/components/Header.vue";
+
 const getInitialState = () => {
   let length = _.random(15, 25);
   let array = Array.from({ length: length }, () => _.random(1, 9));
@@ -45,6 +50,9 @@ export default {
   data: getInitialState,
   props: {
     sleep: Function,
+  },
+  components: {
+    Header,
   },
   methods: {
     async countSort() {

@@ -1,13 +1,16 @@
 <template>
   <div>
-    <p v-if="done === array.length">Done!</p>
-    <button v-on:click="insertSort" :disabled="started">Start</button>
-    <button v-on:click="reset" class="reset">Reset</button>
+    <Header
+      :done="done === array.length"
+      :started="started"
+      @sort="insertionSort"
+      @reset="reset"
+    />
 
     <div class="main">
       <div
         v-for="(item, index) in array"
-        :key="'main-' + index"
+        :key="index"
         :style="{ height: item * 20 + 'px' }"
         :class="getClassName(index)"
       >
@@ -17,7 +20,7 @@
     <div class="main">
       <div
         v-for="(item, index) in sorting"
-        :key="'sorting-' + index"
+        :key="index"
         :style="{ height: item * 20 + 'px' }"
         class="col current"
       >
@@ -28,6 +31,8 @@
 </template>
 
 <script>
+import Header from "@/components/Header.vue";
+
 const getInitialState = () => {
   let array = _.shuffle(_.range(1, 11));
   return {
@@ -44,6 +49,9 @@ export default {
   data: getInitialState,
   props: {
     sleep: Function,
+  },
+  components: {
+    Header,
   },
   methods: {
     setCurrent(current, index) {
@@ -65,7 +73,7 @@ export default {
       return className;
     },
 
-    async insertSort() {
+    async insertionSort() {
       this.started = true;
       let array = this.array;
 

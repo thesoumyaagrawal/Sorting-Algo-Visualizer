@@ -1,14 +1,17 @@
 <template>
   <div>
-    <p v-if="partitions.length === 1 && this.temp.length === 0">Done!</p>
-    <button v-on:click="mergeSort" :disabled="started">Start</button>
-    <button v-on:click="reset" class="reset">Reset</button>
+    <Header
+      :done="partitions.length === 1 && this.temp.length === 0"
+      :started="started"
+      @sort="mergeSort"
+      @reset="reset"
+    />
 
     <div class="main">
       <template v-for="(partition, partition_index) in partitions">
         <div
           v-for="(item, index) in partition"
-          :key="'main-' + index"
+          :key="index"
           :style="getStyling(item, partition_index)"
           class="col"
         >
@@ -19,7 +22,7 @@
     <div class="main">
       <div
         v-for="(item, index) in temp"
-        :key="'temp-' + index"
+        :key="index"
         :style="{ height: item * 20 + 'px' }"
         class="col"
       >
@@ -30,6 +33,8 @@
 </template>
 
 <script>
+import Header from "@/components/Header.vue";
+
 const getInitialState = () => {
   let partitions = _.shuffle(_.range(1, 11)).map((element) => [element]);
 
@@ -47,6 +52,9 @@ export default {
   data: getInitialState,
   props: {
     sleep: Function,
+  },
+  components: {
+    Header,
   },
   methods: {
     getStyling(item, index) {
@@ -165,7 +173,7 @@ export default {
         };
       }
 
-      return `rgb(${color.red}, ${color.green}, ${color.blue})`;
+      return `rgba(${color.red}, ${color.green}, ${color.blue}, 0.75)`;
     },
     reset() {
       this.$emit("clicked");

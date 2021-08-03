@@ -1,8 +1,10 @@
 <template>
   <div>
-    <p v-if="sortedCount === array.length">Done!</p>
-    <button v-on:click="quickSort" :disabled="started">Start</button>
-    <button v-on:click="reset" class="reset">Reset</button>
+    <Header
+      :done="sortedCount === array.length"
+      @sort="quickSort"
+      @reset="reset"
+    />
 
     <div class="main">
       <div
@@ -18,6 +20,8 @@
 </template>
 
 <script>
+import Header from "@/components/Header.vue";
+
 const getInitialState = () => {
   let array = _.shuffle(_.range(1, 11));
   let sorted = Array(array.length).fill(0);
@@ -38,6 +42,9 @@ export default {
   data: getInitialState,
   props: {
     sleep: Function,
+  },
+  components: {
+    Header,
   },
   methods: {
     getClassName(index) {

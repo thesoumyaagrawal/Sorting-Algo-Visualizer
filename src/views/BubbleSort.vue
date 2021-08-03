@@ -1,8 +1,11 @@
 <template>
   <div>
-    <p v-if="!done">Done!</p>
-    <button v-on:click="bubbleSort" :disabled="started">Start</button>
-    <button v-on:click="reset" class="reset">Reset</button>
+    <Header
+      :done="!done"
+      :started="started"
+      @sort="bubbleSort"
+      @reset="reset"
+    />
     <div class="main">
       <div
         v-for="(item, index) in array"
@@ -17,6 +20,8 @@
 </template>
 
 <script>
+import Header from "@/components/Header.vue";
+
 const getInitialState = () => {
   let array = _.shuffle(_.range(1, 11));
   return {
@@ -32,6 +37,9 @@ export default {
   data: getInitialState,
   props: {
     sleep: Function,
+  },
+  components: {
+    Header,
   },
   methods: {
     getClassName(item, index) {
