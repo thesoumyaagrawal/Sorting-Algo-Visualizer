@@ -3,8 +3,10 @@
     <Header
       :done="partitions.length === 1 && this.temp.length === 0"
       :started="started"
+      :array="array"
       @sort="mergeSort"
       @reset="reset"
+      @changeArray="changeArray"
     />
 
     <div class="main">
@@ -13,13 +15,15 @@
         :key="partitionIndex"
       >
         <RenderArray
+          :arrayLength="length"
           :array="partition"
-          :color="getPartitionColor(partitionIndex)"
+          :color="colors[partitionIndex]"
+          :max="max"
         />
       </template>
     </div>
 
-    <RenderArray :array="temp" />
+    <RenderArray :array="temp" :max="max" />
   </div>
 </template>
 
@@ -28,14 +32,19 @@ import Header from "@/components/Header.vue";
 import RenderArray from "@/components/RenderArray.vue";
 
 const getInitialState = () => {
-  let partitions = _.shuffle(_.range(1, 11)).map((element) => [element]);
+  let array = _.shuffle(_.range(1, 11));
+  let partitions = array.map((element) => [element]);
+  let temp = Array(array.length).fill(0);
+  let max = Math.max(...array);
 
   return {
+    array: array,
     partitions: partitions,
     length: partitions.length,
     colors: [],
-    temp: [],
+    temp: temp,
     started: false,
+    max: max,
   };
 };
 
@@ -50,14 +59,17 @@ export default {
     RenderArray,
   },
   methods: {
-    getPartitionColor(index) {
-      return this.colors[index];
+    changeArray(newArray) {
+      this.array = newArray;
+      this.partitions = newArray.map((element) => [element]);
+      this.temp = Array(newArray.length).fill(0);
+      this.max = Math.max(...newArray);
     },
-
     async mergeSort() {
       this.started = true;
-      let partitions = this.partitions;
-      for (let i = 0; i < this.partitions.length; i++) {
+      const partitions = this.partitions;
+
+      for (let i = 0; i < partitions.length; i++) {
         this.colors.push(this.getColor(i));
       }
 
@@ -65,10 +77,10 @@ export default {
 
       while (partitions.length > 1) {
         for (let i = 0; i < partitions.length - 1; i++) {
-          let left = [...partitions[i]];
-          let right = [...partitions[i + 1]];
+          const left = [...partitions[i]];
+          const right = [...partitions[i + 1]];
 
-          if (this.mergeable(i, left, right)) {
+          if (this.mergeNext(i, left, right)) {
             const merged = await this.mergePartitions(i, left, right);
 
             await this.copyBackToOriginal(i, merged);
@@ -80,7 +92,7 @@ export default {
       this.temp = [];
     },
 
-    mergeable(i, left, right) {
+    mergeNext(i, left, right) {
       return (
         left.length === right.length || i + 1 === this.partitions.length - 1
       );
@@ -91,13 +103,13 @@ export default {
 
       while (left.length > 0 || right.length > 0) {
         if (right.length === 0 || left[0] < right[0]) {
-          merged.push(left[0]);
-          this.partitions[indexOfLeft].setFirstNonZeroElementToZero();
-          left.shift();
+          /* copy from left partition */
+          merged.push(left.shift());
+          this.partitions[indexOfLeft].deleteNext();
         } else {
-          merged.push(right[0]);
-          this.partitions[indexOfLeft + 1].setFirstNonZeroElementToZero();
-          right.shift();
+          /* copy from right partition */
+          merged.push(right.shift());
+          this.partitions[indexOfLeft + 1].deleteNext();
         }
         this.fillTempArray(indexOfLeft, merged);
         await this.sleep();
@@ -116,23 +128,20 @@ export default {
          Padding zeroes are used to display it at the right index.
          (if an element is zero, it doesn't appear visually, but takes up the same space)
       */
-      this.temp = Array(this.length).fill(0);
+      this.temp.fill(0);
 
       let mergedStarts = 0;
       for (let i = 0; i < indexOfLeft; i++) {
         mergedStarts += this.partitions[i].length;
       }
 
-      let mergeIndex = 0;
-      while (mergeIndex !== merged.length) {
-        this.temp[mergedStarts++] = merged[mergeIndex++];
-      }
+      this.temp.splice(mergedStarts, merged.length, ...merged);
     },
 
     async copyBackToOriginal(startIndex, merged) {
       for (let j = 0; j < merged.length; j++) {
         this.partitions[startIndex][j] = merged[j];
-        this.temp.setFirstNonZeroElementToZero();
+        this.temp.deleteNext();
         await this.sleep();
       }
     },

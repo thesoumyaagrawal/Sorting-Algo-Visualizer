@@ -3,8 +3,11 @@
     <Header
       :done="count.length === 0"
       :started="started"
+      :array="array"
+      :range="{ min: 1, max: 9 }"
       @sort="countSort"
       @reset="reset"
+      @changeArray="changeArray"
     />
     <RenderArray :array="array" />
     <RenderArray v-if="started" :array="count" :getStyling="getStyling" />
@@ -38,6 +41,9 @@ export default {
     RenderArray,
   },
   methods: {
+    changeArray(newArray) {
+      this.array = newArray;
+    },
     async countSort() {
       this.started = true;
 
@@ -47,8 +53,7 @@ export default {
         this.array[i] = 0;
       }
 
-      let j = 0;
-      for (let i = 0; i < this.count.length; i++) {
+      for (let i = 0, j = 0; i < this.count.length; i++) {
         while (this.count[i] > 0) {
           await this.sleep();
 
@@ -62,7 +67,6 @@ export default {
     reset() {
       this.$emit("clicked");
     },
-
     getStyling(item, index) {
       return {
         height: (index + 1) * 20 + "px",

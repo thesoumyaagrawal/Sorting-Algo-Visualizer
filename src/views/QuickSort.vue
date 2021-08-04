@@ -2,8 +2,11 @@
   <div>
     <Header
       :done="sortedCount === array.length"
+      :array="array"
+      :started="started"
       @sort="quickSort"
       @reset="reset"
+      @changeArray="changeArray"
     />
 
     <RenderArray :array="array" :getClassName="getClassName" />
@@ -40,6 +43,11 @@ export default {
     RenderArray,
   },
   methods: {
+    changeArray(newArray) {
+      this.array = newArray;
+      this.sorted = Array(this.array.length).fill(0);
+    },
+
     getClassName(_, index) {
       let className = "col ";
 

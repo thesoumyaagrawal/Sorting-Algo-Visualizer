@@ -2,9 +2,12 @@
   <div>
     <Header
       :done="maxDigitCount === index"
+      :array="array"
       :started="started"
+      :range="{ min: 1, max: 9999 }"
       @sort="radixSort"
       @reset="reset"
+      @changeArray="changeArray"
     />
 
     <div class="radix-main">
@@ -80,6 +83,17 @@ export default {
       for (this.index = 0; this.index < this.maxDigitCount; this.index++) {
         await this.putNumbersIntoBuckets();
         await this.copyBackFromBuckets();
+      }
+    },
+
+    changeArray(newArray) {
+      this.array = [];
+      this.maxDigitCount = 0;
+      for (let i = 0; i < newArray.length; i++) {
+        this.array.push(newArray[i].toString());
+        if (this.array[i].length > this.maxDigitCount) {
+          this.maxDigitCount = this.array[i].length;
+        }
       }
     },
 

@@ -3,10 +3,11 @@
     <Header
       :done="done === array.length"
       :started="started"
+      :array="array"
       @sort="selectionSort"
       @reset="reset"
+      @changeArray="changeArray"
     />
-
     <RenderArray :array="array" :getClassName="getClassName" />
   </div>
 </template>
@@ -26,6 +27,8 @@ const getInitialState = () => {
     started: false,
     height: 0,
     componentKey: 0,
+    error: undefined,
+    userInput: array.toString(),
   };
 };
 
@@ -40,6 +43,10 @@ export default {
     RenderArray,
   },
   methods: {
+    changeArray(newArray) {
+      this.array = newArray;
+    },
+
     getClassName(_, index) {
       let className = "col ";
 

@@ -3,13 +3,16 @@
     <Header
       :done="done === array.length"
       :started="started"
+      :array="array"
       @sort="insertionSort"
       @reset="reset"
+      @changeArray="changeArray"
     />
 
     <RenderArray :array="array" :getClassName="getClassName" />
     <RenderArray
       :array="sorting"
+      :max="Math.max(...array)"
       :getClassName="
         () => {
           return 'col current';
@@ -25,9 +28,11 @@ import RenderArray from "@/components/RenderArray.vue";
 
 const getInitialState = () => {
   let array = _.shuffle(_.range(1, 11));
+  let sorting = Array(10).fill(0);
+
   return {
     array: array,
-    sorting: [],
+    sorting: sorting,
     done: -1,
     started: false,
     active: -1,
@@ -45,8 +50,12 @@ export default {
     RenderArray,
   },
   methods: {
+    changeArray(newArray) {
+      this.array = newArray;
+      this.sorting = Array(this.array.length).fill(0);
+    },
     setCurrent(current, index) {
-      this.sorting = Array(10).fill(0);
+      this.sorting.fill(0);
       this.sorting[index] = current;
     },
 
@@ -93,7 +102,7 @@ export default {
       }
       this.done = this.array.length;
       this.active = -1;
-      this.sorting = Array(10).fill(0);
+      this.sorting.fill(0);
     },
     reset() {
       this.$emit("clicked");

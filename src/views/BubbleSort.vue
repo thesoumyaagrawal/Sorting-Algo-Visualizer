@@ -3,8 +3,10 @@
     <Header
       :done="!done"
       :started="started"
+      :array="array"
       @sort="bubbleSort"
       @reset="reset"
+      @changeArray="changeArray"
     />
     <RenderArray :array="array" :getClassName="getClassName" />
   </div>
@@ -35,19 +37,22 @@ export default {
     RenderArray,
   },
   methods: {
-    getClassName(item, index) {
+    getClassName(_, index) {
       if (index >= this.done) return "col done";
 
-      return this.active.includes(item) ? "col active" : "col";
+      return this.active.includes(index) ? "col active" : "col";
     },
-
+    changeArray(newArray) {
+      this.array = newArray;
+      this.done = newArray.length;
+    },
     async bubbleSort() {
       this.started = true;
       var array = this.array;
 
       for (let i = 0; i < array.length; i++) {
         for (let j = 0; j < array.length - i - 1; j++) {
-          this.active = [array[j], array[j + 1]];
+          this.active = [j, j + 1];
 
           if (array[j] > array[j + 1]) {
             [array[j], array[j + 1]] = [array[j + 1], array[j]];

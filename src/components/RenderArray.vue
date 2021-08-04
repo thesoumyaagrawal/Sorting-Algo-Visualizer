@@ -16,6 +16,10 @@ export default {
   name: "render-array",
   props: {
     array: Array,
+    max: {
+      default: undefined,
+      type: Number,
+    },
     color: {
       default: "",
       type: String,
@@ -28,10 +32,19 @@ export default {
     },
     getStyling: {
       default: function(item) {
-        if (this.color !== "") {
-          return `height: ${item * 20}px; background-color:${this.color};`;
+        if (!this.max) {
+          this.max = Math.max(...this.array);
         }
-        return `height: ${item * 20}px`;
+
+        let height = 0;
+        if (item !== 0) {
+          height = (200 / this.max) * item + 20;
+        }
+
+        if (this.color !== "") {
+          return `height: ${height}px; background-color:${this.color};`;
+        }
+        return `height: ${height}px`;
       },
       type: Function,
     },
