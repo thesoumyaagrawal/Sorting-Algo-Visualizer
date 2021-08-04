@@ -6,21 +6,13 @@
       @reset="reset"
     />
 
-    <div class="main">
-      <div
-        v-for="(item, index) in array"
-        :key="index"
-        :style="{ height: item * 20 + 'px' }"
-        :class="getClassName(index)"
-      >
-        {{ item }}
-      </div>
-    </div>
+    <RenderArray :array="array" :getClassName="getClassName" />
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
+import RenderArray from "@/components/RenderArray.vue";
 
 const getInitialState = () => {
   let array = _.shuffle(_.range(1, 11));
@@ -45,9 +37,10 @@ export default {
   },
   components: {
     Header,
+    RenderArray,
   },
   methods: {
-    getClassName(index) {
+    getClassName(_, index) {
       let className = "col ";
 
       if (this.pivot === index) {

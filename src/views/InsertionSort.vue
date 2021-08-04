@@ -7,31 +7,21 @@
       @reset="reset"
     />
 
-    <div class="main">
-      <div
-        v-for="(item, index) in array"
-        :key="index"
-        :style="{ height: item * 20 + 'px' }"
-        :class="getClassName(index)"
-      >
-        {{ item }}
-      </div>
-    </div>
-    <div class="main">
-      <div
-        v-for="(item, index) in sorting"
-        :key="index"
-        :style="{ height: item * 20 + 'px' }"
-        class="col current"
-      >
-        {{ item }}
-      </div>
-    </div>
+    <RenderArray :array="array" :getClassName="getClassName" />
+    <RenderArray
+      :array="sorting"
+      :getClassName="
+        () => {
+          return 'col current';
+        }
+      "
+    />
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
+import RenderArray from "@/components/RenderArray.vue";
 
 const getInitialState = () => {
   let array = _.shuffle(_.range(1, 11));
@@ -52,6 +42,7 @@ export default {
   },
   components: {
     Header,
+    RenderArray,
   },
   methods: {
     setCurrent(current, index) {
@@ -59,7 +50,7 @@ export default {
       this.sorting[index] = current;
     },
 
-    getClassName(index) {
+    getClassName(_, index) {
       let className = "col ";
 
       if (index === this.active) {

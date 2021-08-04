@@ -8,32 +8,24 @@
     />
 
     <div class="main">
-      <template v-for="(partition, partition_index) in partitions">
-        <div
-          v-for="(item, index) in partition"
-          :key="index"
-          :style="getStyling(item, partition_index)"
-          class="col"
-        >
-          {{ item }}
-        </div>
+      <template
+        v-for="(partition, partitionIndex) in partitions"
+        :key="partitionIndex"
+      >
+        <RenderArray
+          :array="partition"
+          :color="getPartitionColor(partitionIndex)"
+        />
       </template>
     </div>
-    <div class="main">
-      <div
-        v-for="(item, index) in temp"
-        :key="index"
-        :style="{ height: item * 20 + 'px' }"
-        class="col"
-      >
-        {{ item }}
-      </div>
-    </div>
+
+    <RenderArray :array="temp" />
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
+import RenderArray from "@/components/RenderArray.vue";
 
 const getInitialState = () => {
   let partitions = _.shuffle(_.range(1, 11)).map((element) => [element]);
@@ -55,12 +47,11 @@ export default {
   },
   components: {
     Header,
+    RenderArray,
   },
   methods: {
-    getStyling(item, index) {
-      const height = item * 20;
-
-      return `height: ${height}px; background-color:${this.colors[index]};`;
+    getPartitionColor(index) {
+      return this.colors[index];
     },
 
     async mergeSort() {

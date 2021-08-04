@@ -6,32 +6,14 @@
       @sort="countSort"
       @reset="reset"
     />
-
-    <div class="main">
-      <div
-        v-for="(item, index) in array"
-        :key="index"
-        :style="{ height: item * 20 + 'px' }"
-        class="col"
-      >
-        {{ item }}
-      </div>
-    </div>
-    <div v-if="started" class="main">
-      <div
-        v-for="(item, index) in count"
-        :key="index"
-        class="col"
-        :style="getStyling(index, item)"
-      >
-        {{ item }}
-      </div>
-    </div>
+    <RenderArray :array="array" />
+    <RenderArray v-if="started" :array="count" :getStyling="getStyling" />
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
+import RenderArray from "@/components/RenderArray.vue";
 
 const getInitialState = () => {
   let length = _.random(15, 25);
@@ -53,6 +35,7 @@ export default {
   },
   components: {
     Header,
+    RenderArray,
   },
   methods: {
     async countSort() {
@@ -80,7 +63,7 @@ export default {
       this.$emit("clicked");
     },
 
-    getStyling(index, item) {
+    getStyling(item, index) {
       return {
         height: (index + 1) * 20 + "px",
         background: `hsl(0, 0%, ${90 - item * 15}%)`,
