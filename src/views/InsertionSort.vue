@@ -12,7 +12,7 @@
     <RenderArray :array="array" :getClassName="getClassName" />
     <RenderArray
       :array="sorting"
-      :max="Math.max(...array)"
+      :max="max"
       :getClassName="
         () => {
           return 'col current';
@@ -29,6 +29,7 @@ import RenderArray from "@/components/RenderArray.vue";
 const getInitialState = () => {
   let array = _.shuffle(_.range(1, 11));
   let sorting = Array(10).fill(0);
+  let max = Math.max(...array);
 
   return {
     array: array,
@@ -36,6 +37,7 @@ const getInitialState = () => {
     done: -1,
     started: false,
     active: -1,
+    max: 0,
   };
 };
 
@@ -52,6 +54,7 @@ export default {
   methods: {
     changeArray(newArray) {
       this.array = newArray;
+      this.max = Math.max(...this.array);
       this.sorting = Array(this.array.length).fill(0);
     },
     setCurrent(current, index) {
