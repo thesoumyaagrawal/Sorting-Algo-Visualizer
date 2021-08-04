@@ -51,3 +51,28 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.col {
+  width: 25px;
+  color: white;
+  background: #222;
+  margin-right: 5px;
+}
+
+.active {
+  background: #6b9b37;
+}
+
+.done {
+  background: #ffeb3b;
+}
+
+.current {
+  background: #f44336;
+}
+
+.smaller {
+  background: #9c27b0;
+}
+</style>

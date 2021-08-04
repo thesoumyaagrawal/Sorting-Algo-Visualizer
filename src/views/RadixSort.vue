@@ -151,7 +151,7 @@ export default {
 }
 
 .radix-bucket {
-  height: 200px;
+  height: 300px;
   display: flex;
   justify-content: center;
 }

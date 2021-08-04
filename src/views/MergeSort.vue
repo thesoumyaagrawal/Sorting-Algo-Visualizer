@@ -64,6 +64,7 @@ export default {
       this.partitions = newArray.map((element) => [element]);
       this.temp = Array(newArray.length).fill(0);
       this.max = Math.max(...newArray);
+      this.length = this.partitions.length;
     },
     async mergeSort() {
       this.started = true;

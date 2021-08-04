@@ -1,12 +1,13 @@
 <template>
-  <p v-if="done">Done!</p>
-  <form v-on:submit="changeArray">
-    <div v-if="error && !started">{{ error }}</div>
-    <input text="text" :value="userInput" ref="newArray" />
-    <button type="submit" :disabled="started">Change Array</button>
-  </form>
-  <button type="submit" v-on:click="sort" :disabled="started">Start</button>
-  <button v-on:click="reset" class="reset">Reset</button>
+  <div id="header">
+    <form v-on:submit="changeArray">
+      <input id="array-input" text="text" :value="userInput" ref="newArray" />
+      <button type="submit" :disabled="started">Sort</button>
+      <button v-on:click="reset" class="reset">Reset</button>
+      <div v-if="error && !started" class="error">{{ error }}</div>
+    </form>
+  </div>
+  <span v-if="done">Done!</span>
 </template>
 
 <script>
@@ -62,9 +63,8 @@ export default {
         }
       }
 
-      if (!this.error) {
-        this.$emit("changeArray", array);
-      }
+      this.$emit("changeArray", array);
+      this.$emit("sort");
     },
 
     isInteger(value) {
@@ -75,7 +75,25 @@ export default {
 </script>
 
 <style scoped>
-.reset {
-  background: #f44336;
+#header {
+  display: flex;
+  justify-content: center;
+  padding: 8px 30%;
+  background: #3ba776;
+}
+
+#array-input {
+  border: 0;
+  padding: 6px 12px;
+  min-width: 200px;
+  outline: none;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.error {
+  color: #fad8d8;
 }
 </style>

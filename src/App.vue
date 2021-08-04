@@ -1,5 +1,6 @@
 <template>
   <Navbar />
+  <router-view :key="key" :sleep="sleep" @clicked="handleReset" />
   <div>
     <span>Slower</span>
     <input
@@ -11,7 +12,6 @@
     />
     <span>Faster</span>
   </div>
-  <router-view :key="key" :sleep="sleep" @clicked="handleReset" />
 </template>
 
 <script>
@@ -43,6 +43,10 @@ export default {
 </script>
 
 <style>
+body {
+  margin: 0px;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -60,13 +64,13 @@ export default {
 
 button {
   min-width: 80px;
-  background: #8bc34a;
+  background: #42b983;
   color: white;
   border: none;
-  border-radius: 5px;
   margin: 2px;
   padding: 6px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 button:disabled {
@@ -74,26 +78,7 @@ button:disabled {
   cursor: default;
 }
 
-.col {
-  width: 25px;
-  color: white;
-  background: #222;
-  margin-right: 5px;
-}
-
-.active {
-  background: #6b9b37;
-}
-
-.done {
-  background: #ffeb3b;
-}
-
-.current {
-  background: #f44336;
-}
-
-.smaller {
-  background: #9c27b0;
+.reset {
+  background: #ec5555;
 }
 </style>
