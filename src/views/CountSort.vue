@@ -8,7 +8,7 @@
       @reset="reset"
       @changeArray="changeArray"
     />
-    <RenderArray :array="array" />
+    <RenderArray :array="array" :max="Math.max(...array)" />
     <RenderArray v-if="started" :array="count" :getStyling="getStyling" />
   </div>
 </template>

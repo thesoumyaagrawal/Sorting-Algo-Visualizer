@@ -7,7 +7,11 @@
       @reset="reset"
       @changeArray="changeArray"
     />
-    <RenderArray :array="array" :getClassName="getClassName" />
+    <RenderArray
+      :array="array"
+      :max="Math.max(...array)"
+      :getClassName="getClassName"
+    />
   </div>
 </template>
 
@@ -41,10 +45,12 @@ export default {
 
       return this.active.includes(index) ? "col active" : "col";
     },
+
     changeArray(newArray) {
       this.array = newArray;
       this.done = newArray.length;
     },
+
     async bubbleSort() {
       this.started = true;
       var array = this.array;

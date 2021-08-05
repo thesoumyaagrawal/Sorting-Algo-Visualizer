@@ -17,12 +17,12 @@
           :arrayLength="length"
           :array="partition"
           :color="colors[partitionIndex]"
-          :max="max"
+          :max="Math.max(...array)"
         />
       </template>
     </div>
 
-    <RenderArray :array="temp" :max="max" />
+    <RenderArray :array="temp" :max="Math.max(...array)" />
   </div>
 </template>
 
@@ -34,7 +34,6 @@ const getInitialState = () => {
   let array = _.shuffle(_.range(1, 11));
   let partitions = array.map((element) => [element]);
   let temp = Array(array.length).fill(0);
-  let max = Math.max(...array);
 
   return {
     array: array,
@@ -43,7 +42,6 @@ const getInitialState = () => {
     colors: [],
     temp: temp,
     started: false,
-    max: max,
   };
 };
 
@@ -62,7 +60,6 @@ export default {
       this.array = newArray;
       this.partitions = newArray.map((element) => [element]);
       this.temp = Array(newArray.length).fill(0);
-      this.max = Math.max(...newArray);
       this.length = this.partitions.length;
       for (let i = 0; i < this.partitions.length; i++) {
         this.colors.push(this.getColor(i));

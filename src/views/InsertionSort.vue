@@ -9,7 +9,7 @@
       @changeArray="changeArray"
     />
 
-    <RenderArray :array="array" :getClassName="getClassName" />
+    <RenderArray :array="array" :max="max" :getClassName="getClassName" />
     <RenderArray
       :array="sorting"
       :max="max"

@@ -7,7 +7,11 @@
       @reset="reset"
       @changeArray="changeArray"
     />
-    <RenderArray :array="array" :getClassName="getClassName" />
+    <RenderArray
+      :array="array"
+      :max="Math.max(...array)"
+      :getClassName="getClassName"
+    />
   </div>
 </template>
 
