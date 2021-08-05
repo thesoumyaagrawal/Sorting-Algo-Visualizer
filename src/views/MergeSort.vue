@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header
-      :done="partitions.length === 1 && this.temp.length === 0"
       :started="started"
       :array="array"
       @sort="mergeSort"
@@ -65,6 +64,9 @@ export default {
       this.temp = Array(newArray.length).fill(0);
       this.max = Math.max(...newArray);
       this.length = this.partitions.length;
+      for (let i = 0; i < this.partitions.length; i++) {
+        this.colors.push(this.getColor(i));
+      }
     },
     async mergeSort() {
       this.started = true;
@@ -90,7 +92,9 @@ export default {
           }
         }
       }
+      this.colors = [];
       this.temp = [];
+      this.started = false;
     },
 
     mergeNext(i, left, right) {
@@ -177,7 +181,7 @@ export default {
       return `rgba(${color.red}, ${color.green}, ${color.blue}, 0.75)`;
     },
     reset() {
-      this.$emit("clicked");
+      this.$emit("reset");
     },
   },
 };

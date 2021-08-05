@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header
-      :done="count.length === 0"
       :started="started"
       :array="array"
       :range="{ min: 1, max: 9 }"
@@ -21,11 +20,10 @@ import RenderArray from "@/components/RenderArray.vue";
 const getInitialState = () => {
   let length = _.random(15, 25);
   let array = Array.from({ length: length }, () => _.random(1, 9));
-  let count = Array(10).fill(0);
 
   return {
     array: array,
-    count: count,
+    count: [],
     started: false,
   };
 };
@@ -46,6 +44,7 @@ export default {
     },
     async countSort() {
       this.started = true;
+      this.count = Array(10).fill(0);
 
       for (let i = 0; i < this.array.length; i++) {
         await this.sleep();
@@ -62,10 +61,13 @@ export default {
         }
       }
 
+      await this.sleep();
+
+      this.started = false;
       this.count = [];
     },
     reset() {
-      this.$emit("clicked");
+      this.$emit("reset");
     },
     getStyling(item, index) {
       return {

@@ -1,20 +1,20 @@
 <template>
   <div id="header">
-    <form v-on:submit="changeArray">
+    <div>
       <input id="array-input" text="text" :value="userInput" ref="newArray" />
-      <button type="submit" :disabled="started">Sort</button>
-      <button v-on:click="reset" class="reset">Reset</button>
+      <button type="button" :disabled="started" v-on:click="changeArray">
+        Sort
+      </button>
+      <button type="button" v-on:click="reset" class="reset">Reset</button>
       <div v-if="error && !started" class="error">{{ error }}</div>
-    </form>
+    </div>
   </div>
-  <span v-if="done">Done!</span>
 </template>
 
 <script>
 export default {
   name: "sort-header",
   props: {
-    done: Boolean,
     started: Boolean,
     range: {
       default: { min: 1, max: 99 },
@@ -78,7 +78,8 @@ export default {
 #header {
   display: flex;
   justify-content: center;
-  padding: 8px 30%;
+  align-items: center;
+  padding: 8px 15%;
   background: #3ba776;
 }
 

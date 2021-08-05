@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header
-      :done="done === array.length"
       :started="started"
       :array="array"
       @sort="selectionSort"
@@ -26,9 +25,6 @@ const getInitialState = () => {
     active: -1,
     started: false,
     height: 0,
-    componentKey: 0,
-    error: undefined,
-    userInput: array.toString(),
   };
 };
 
@@ -86,10 +82,11 @@ export default {
         await this.sleep();
       }
 
-      this.done = this.array.length;
+      this.done = -1;
+      this.started = false;
     },
     reset() {
-      this.$emit("clicked");
+      this.$emit("reset");
     },
   },
 };

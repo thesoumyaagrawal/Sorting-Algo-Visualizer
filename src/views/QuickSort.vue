@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header
-      :done="sortedCount === array.length"
       :array="array"
       :started="started"
       @sort="quickSort"
@@ -104,11 +103,14 @@ export default {
         await this.sleep();
       }
 
+      this.sorted = Array(this.array.length).fill(0);
+      this.sortedCount = 0;
       this.pivot = -1;
       this.active = -1;
+      this.started = false;
     },
     reset() {
-      this.$emit("clicked");
+      this.$emit("reset");
     },
   },
 };

@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header
-      :done="maxDigitCount === index"
       :array="array"
       :started="started"
       :range="{ min: 1, max: 9999 }"
@@ -19,6 +18,7 @@
         <DisplayNumber :number="number" :index="index" />
       </div>
     </div>
+
     <div class="radix-bucket">
       <div v-for="(bucket, bucketIndex) in buckets" :key="bucketIndex">
         <div
@@ -84,6 +84,8 @@ export default {
         await this.putNumbersIntoBuckets();
         await this.copyBackFromBuckets();
       }
+
+      this.started = false;
     },
 
     changeArray(newArray) {
@@ -137,7 +139,7 @@ export default {
     },
 
     reset() {
-      this.$emit("clicked");
+      this.$emit("reset");
     },
   },
 };

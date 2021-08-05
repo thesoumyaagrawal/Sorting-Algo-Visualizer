@@ -1,7 +1,6 @@
 <template>
   <div>
     <Header
-      :done="!done"
       :started="started"
       :array="array"
       @sort="bubbleSort"
@@ -62,9 +61,15 @@ export default {
         }
         this.done--;
       }
+
+      await this.sleep();
+
+      this.done = this.array.length;
+      this.active = [];
+      this.started = false;
     },
     reset() {
-      this.$emit("clicked");
+      this.$emit("reset");
     },
   },
 };

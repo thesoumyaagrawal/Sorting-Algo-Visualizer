@@ -37,7 +37,7 @@ const getInitialState = () => {
     done: -1,
     started: false,
     active: -1,
-    max: 0,
+    max: max,
   };
 };
 
@@ -57,6 +57,7 @@ export default {
       this.max = Math.max(...this.array);
       this.sorting = Array(this.array.length).fill(0);
     },
+
     setCurrent(current, index) {
       this.sorting.fill(0);
       this.sorting[index] = current;
@@ -103,12 +104,18 @@ export default {
 
         array[j + 1] = current;
       }
+
       this.done = this.array.length;
       this.active = -1;
       this.sorting.fill(0);
+
+      await this.sleep();
+
+      this.done = -1;
+      this.started = false;
     },
     reset() {
-      this.$emit("clicked");
+      this.$emit("reset");
     },
   },
 };

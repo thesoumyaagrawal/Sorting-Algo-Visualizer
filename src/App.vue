@@ -1,26 +1,18 @@
 <template>
   <Navbar />
-  <router-view :key="key" :sleep="sleep" @clicked="handleReset" />
-  <div>
-    <span>Slower</span>
-    <input
-      type="range"
-      v-model="animationSpeed"
-      min="100"
-      max="800"
-      step="25"
-    />
-    <span>Faster</span>
-  </div>
+  <router-view :key="key" :sleep="sleep" @reset="handleReset" />
+  <Footer @speedChanged="changeSpeed" />
 </template>
 
 <script>
 import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "app",
   components: {
     Navbar,
+    Footer,
   },
   data() {
     return {
@@ -33,6 +25,10 @@ export default {
       return new Promise((resolve) =>
         setTimeout(resolve, 900 - this.animationSpeed)
       );
+    },
+
+    changeSpeed(value) {
+      this.animationSpeed = value;
     },
 
     handleReset() {
