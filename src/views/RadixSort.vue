@@ -9,7 +9,7 @@
       @changeArray="changeArray"
     />
 
-    <div class="radix-main">
+    <div class="radix-array">
       <div
         v-for="(number, numberIndex) in array"
         :key="numberIndex"
@@ -20,11 +20,15 @@
     </div>
 
     <div class="radix-bucket">
-      <div v-for="(bucket, bucketIndex) in buckets" :key="bucketIndex">
+      <div
+        v-for="(bucket, bucketIndex) in buckets"
+        :key="bucketIndex"
+        class="bucket"
+      >
         <div
           v-for="(number, numberIndex) in bucket"
           :key="numberIndex"
-          :class="getClassName(number) + ' bucket'"
+          :class="getClassName(number) + ' bucket-element'"
         >
           <DisplayNumber :number="number" :index="index" />
         </div>
@@ -54,7 +58,7 @@ const getInitialState = () => {
   array = _.shuffle(array);
 
   for (let i = 0; i < 10; i++) {
-    buckets.push([...Array(10).fill("0")]);
+    buckets.push([...Array(20).fill("0")]);
   }
 
   return {
@@ -146,16 +150,27 @@ export default {
 </script>
 
 <style scoped>
-.radix-main {
+.radix-array {
   margin-top: 25px;
+  width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
+@media only screen and (max-width: 599px) {
+  .radix-bucket > .bucket > .radix-element,
+  .bucket > .bucket-indicator {
+    width: 30px;
+    font-size: 12px;
+  }
+}
+
 .radix-bucket {
-  height: 300px;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .bucket-indicator {
@@ -168,10 +183,10 @@ export default {
 .radix-element {
   width: 50px;
   border: 1px solid black;
-  margin: 0 2px 0 2px;
+  margin: 2px;
 }
 
-.bucket {
+.bucket-element {
   margin: 2px 0 2px 0;
 }
 

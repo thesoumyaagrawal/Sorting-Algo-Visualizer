@@ -1,10 +1,10 @@
 <template>
-  <div class="main">
+  <div class="array">
     <div
       v-for="(item, index) in array"
       :key="index"
-      :class="getClassName(item, index)"
       :style="getStyling(item, index)"
+      :class="getClassName(item, index) + ' ' + applyMobileStyling()"
     >
       {{ item }}
     </div>
@@ -20,8 +20,12 @@ export default {
       default: undefined,
       type: Number,
     },
+    arrayLength: {
+      default: undefined,
+      type: Number,
+    },
     color: {
-      default: "",
+      default: undefined,
       type: String,
     },
     getClassName: {
@@ -41,12 +45,26 @@ export default {
           height = (200 / this.max) * item + 20;
         }
 
-        if (this.color !== "") {
+        if (this.color) {
           return `height: ${height}px; background-color:${this.color};`;
         }
         return `height: ${height}px`;
       },
       type: Function,
+    },
+  },
+
+  methods: {
+    applyMobileStyling() {
+      let length = this.array.length;
+      if (this.arrayLength) {
+        length = this.arrayLength;
+      }
+      if (length > 12 && length < 15) {
+        return "col-mobile-base";
+      } else if (length > 15) {
+        return "col-mobile-small";
+      }
     },
   },
 };
@@ -57,7 +75,21 @@ export default {
   width: 25px;
   color: white;
   background: #222;
-  margin-right: 5px;
+  margin-right: 1px;
+}
+
+@media only screen and (max-width: 599px) {
+  .col-mobile-small {
+    font-size: 12px;
+    width: 15px;
+    margin-right: 1px;
+  }
+
+  .col-mobile-base {
+    font-size: 12px;
+    width: 20px;
+    margin-right: 1px;
+  }
 }
 
 .active {

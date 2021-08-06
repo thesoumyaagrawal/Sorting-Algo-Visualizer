@@ -20,15 +20,31 @@ export default {
 a {
   color: #42b983;
 }
+
+@media only screen and (max-width: 599px) {
+  #nav {
+    font-size: 10px;
+    overflow: hidden;
+  }
+
+  #nav a {
+    padding: 16px 0px;
+  }
+}
+
 #nav {
   display: flex;
+  height: 45px;
   justify-content: center;
+  align-items: center;
   width: 100%;
   background: #42b983;
 }
 
 #nav a {
+  margin: 0;
   font-weight: bold;
+  vertical-align: middle;
   padding: 16px 8px;
   color: #2c3e50;
   justify-content: center;
@@ -38,14 +54,5 @@ a {
 
 #nav a.router-link-exact-active {
   background: #3ba776;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
 }
 </style>

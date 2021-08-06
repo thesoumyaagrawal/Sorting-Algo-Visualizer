@@ -1,6 +1,8 @@
 <template>
   <Navbar />
-  <router-view :key="key" :sleep="sleep" @reset="handleReset" />
+  <div id="content">
+    <router-view :key="key" :sleep="sleep" @reset="handleReset" />
+  </div>
   <Footer @speedChanged="changeSpeed" />
 </template>
 
@@ -40,7 +42,7 @@ export default {
 
 <style>
 body {
-  margin: 0px;
+  margin: 0;
 }
 
 #app {
@@ -51,30 +53,18 @@ body {
   color: #2c3e50;
 }
 
-.main {
-  height: 250px;
+#content {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: calc(100vh - 90px);
+}
+
+.array {
+  min-height: 250px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
-}
-
-button {
-  min-width: 80px;
-  background: #42b983;
-  color: white;
-  border: none;
-  margin: 2px;
-  padding: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-.reset {
-  background: #ec5555;
+  margin: 0 10px 20px 10px;
 }
 </style>

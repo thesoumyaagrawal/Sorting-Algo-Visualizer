@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <div>
-      <input id="array-input" text="text" :value="userInput" ref="newArray" />
+      <input id="array-input" type="text" :value="userInput" ref="newArray" />
       <button type="button" :disabled="started" v-on:click="changeArray">
         Sort
       </button>
@@ -79,7 +79,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8px 15%;
+  padding: 8px 0;
   background: #3ba776;
 }
 
@@ -90,11 +90,35 @@ export default {
   outline: none;
 }
 
-.spacer {
-  flex-grow: 1;
+@media only screen and (max-width: 599px) {
+  #array-input {
+    min-width: auto;
+    width: 150px;
+  }
+}
+
+button {
+  min-width: 80px;
+  background: #42b983;
+  color: white;
+  border: none;
+  margin: 2px;
+  padding: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.reset {
+  background: #ec5555;
 }
 
 .error {
-  color: #fad8d8;
+  color: #610000;
+  padding: 2px 0 0;
 }
 </style>

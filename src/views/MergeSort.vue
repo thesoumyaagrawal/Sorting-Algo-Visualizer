@@ -8,7 +8,7 @@
       @changeArray="changeArray"
     />
 
-    <div class="main">
+    <div class="array">
       <template
         v-for="(partition, partitionIndex) in partitions"
         :key="partitionIndex"
@@ -18,6 +18,7 @@
           :array="partition"
           :color="colors[partitionIndex]"
           :max="Math.max(...array)"
+          class="partition"
         />
       </template>
     </div>
@@ -61,17 +62,13 @@ export default {
       this.partitions = newArray.map((element) => [element]);
       this.temp = Array(newArray.length).fill(0);
       this.length = this.partitions.length;
-      for (let i = 0; i < this.partitions.length; i++) {
-        this.colors.push(this.getColor(i));
-      }
+      this.colorPartitions();
     },
     async mergeSort() {
       this.started = true;
       const partitions = this.partitions;
 
-      for (let i = 0; i < partitions.length; i++) {
-        this.colors.push(this.getColor(i));
-      }
+      this.colorPartitions();
 
       await this.sleep();
 
@@ -126,8 +123,8 @@ export default {
     },
 
     fillTempArray(indexOfLeft, merged) {
-      /* "temp" is used to display the result of merging.
-         Padding zeroes are used to display it at the right index.
+      /* temp is used to display the result of merging
+         Padding zeroes are used to display it at the right index
          (if an element is zero, it doesn't appear visually, but takes up the same space)
       */
       this.temp.fill(0);
@@ -145,6 +142,12 @@ export default {
         this.partitions[startIndex][j] = merged[j];
         this.temp.deleteNext();
         await this.sleep();
+      }
+    },
+
+    colorPartitions() {
+      for (let i = 0; i < this.partitions.length; i++) {
+        this.colors.push(this.getColor(i));
       }
     },
 
@@ -183,3 +186,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.partition {
+  margin: 0 0 20px 0;
+}
+</style>
