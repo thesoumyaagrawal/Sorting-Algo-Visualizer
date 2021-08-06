@@ -18,7 +18,7 @@ import Header from "@/components/Header.vue";
 import RenderArray from "@/components/RenderArray.vue";
 
 const getInitialState = () => {
-  let length = _.random(15, 25);
+  let length = _.random(15, 20);
   let array = Array.from({ length: length }, () => _.random(1, 9));
 
   return {

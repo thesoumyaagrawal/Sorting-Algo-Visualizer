@@ -39,8 +39,8 @@ export default {
     changeArray() {
       this.userInput = this.$refs.newArray.value.replaceAll(" ", "").split(",");
 
-      if (this.userInput.length > 25 || this.userInput.length < 3) {
-        this.error = "The array must have at least 3 and maximum 25 numbers.";
+      if (this.userInput.length > 20 || this.userInput.length < 3) {
+        this.error = "The array must have at least 3 and maximum 20 numbers.";
         return;
       }
 
