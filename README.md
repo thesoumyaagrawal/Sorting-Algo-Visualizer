@@ -19,4 +19,4 @@ Inspired by VisuAlgo, the app aims to help beginners understand sorting algorith
 * **Improve design**: the current design of the website can come off as plain due to the somehow dull color palette and simple geometric shapes.
 * **Graph algorithms**: the app could be extended so that it would cover graph algorithms as well.
 
-The latest version is available at: https://vue-sorting-algorithm-visualizer.netlify.app/
+The latest version is available at: https://al-govis.netlify.app/
