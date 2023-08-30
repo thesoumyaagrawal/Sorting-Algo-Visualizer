@@ -80,7 +80,7 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 8px 0;
-  background: #3ba776;
+  background: #0000008a;
 }
 
 #array-input {
@@ -99,8 +99,8 @@ export default {
 
 button {
   min-width: 80px;
-  background: #42b983;
-  color: white;
+  background: #f8e511;
+  color: #333;
   border: none;
   margin: 2px;
   padding: 6px;

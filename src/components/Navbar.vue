@@ -5,8 +5,6 @@
     <router-link to="/selectionSort">Selection Sort</router-link>
     <router-link to="/mergeSort">Merge Sort</router-link>
     <router-link to="/quickSort">Quick Sort</router-link>
-    <router-link to="/countSort">Count Sort</router-link>
-    <router-link to="/radixSort">Radix Sort</router-link>
   </div>
 </template>
 
@@ -38,7 +36,7 @@ a {
   justify-content: center;
   align-items: center;
   width: 100%;
-  background: #42b983;
+  background: #0000002c;
 }
 
 #nav a {
@@ -49,10 +47,10 @@ a {
   color: #2c3e50;
   justify-content: center;
   text-decoration: none;
-  color: white;
+  color: #333333;
 }
 
 #nav a.router-link-exact-active {
-  background: #3ba776;
+  background: #FFFFFF;
 }
 </style>

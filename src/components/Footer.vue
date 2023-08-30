@@ -38,8 +38,8 @@ footer {
   width: 100%;
   height: 30px;
   padding: 15px 0 0 0;
-  color: white;
-  background: #3ba776;
+  color: #333333;
+  background: #0000000F;
 }
 
 footer > span {
@@ -49,7 +49,6 @@ footer > span {
 input[type="range"] {
   overflow: hidden;
   width: 150px;
-  -webkit-appearance: none;
   background-color: #9a905d;
   cursor: pointer;
 }

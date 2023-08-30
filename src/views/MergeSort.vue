@@ -9,10 +9,8 @@
     />
 
     <div class="array">
-      <template
-        v-for="(partition, partitionIndex) in partitions"
-        :key="partitionIndex"
-      >
+      <template   v-for="(partition, partitionIndex) in partitions"
+        :key="partitionIndex">
         <RenderArray
           :arrayLength="length"
           :array="partition"

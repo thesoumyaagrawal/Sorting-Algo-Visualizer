@@ -1,9 +1,12 @@
 <template>
-  <Navbar />
-  <div id="content">
-    <router-view :key="key" :sleep="sleep" @reset="handleReset" />
+  <div>
+    <Navbar />
+    <div id="content">
+      <router-view :key="key" :sleep="sleep" @reset="handleReset" />
+    </div>
+    <Footer @speedChanged="changeSpeed">
+      </Footer>
   </div>
-  <Footer @speedChanged="changeSpeed" />
 </template>
 
 <script>

@@ -73,8 +73,8 @@ export default {
 <style scoped>
 .col {
   width: 25px;
-  color: white;
-  background: #222;
+  color: #333333;
+  background: #D7D8DC;
   margin-right: 1px;
 }
 

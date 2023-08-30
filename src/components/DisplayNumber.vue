@@ -1,4 +1,5 @@
 <template>
+  <div>
   <span
     v-for="(digit, digitIndex) in number"
     :key="digitIndex"
@@ -6,6 +7,7 @@
   >
     {{ digit }}
   </span>
+</div>
 </template>
 
 <script>
