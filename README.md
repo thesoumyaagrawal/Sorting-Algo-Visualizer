@@ -5,7 +5,10 @@ Vue.js
 HTML
 CSS
 JavaScript
-# Future Scope
+# Outcomes Of the Project
+By incorporating dynamic animations into the algorithm visualization app, users will experience a more interactive and engaging learning environment. This will lead to improved user retention and a more effective learning experience, as users grasp complex concepts more readily through visual cues.
+
+# Future Scope of Improvements
 Incorporate animations: While the current functionality effectively demonstrates algorithm behaviors, the addition of dynamic animations during processes like element swapping and movement could significantly enhance the visual appeal of the application.
 
 Enhance the visual design: To elevate the website's aesthetics, it's advisable to reconsider the existing design elements. This entails exploring a more vibrant color palette and introducing more sophisticated geometric shapes, as the current design might be perceived as somewhat plain.
