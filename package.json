@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "dev": "vue-cli-service dev"
+    "dev": "vue-cli-service dev",
+    "start": "npm run serve"
   },
   "dependencies": {
     "vue": "^3.0.0",
@@ -15,5 +16,17 @@
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thesoumyaagrawal/Sorting-Algo-Visualizer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thesoumyaagrawal/Sorting-Algo-Visualizer/issues"
+  },
+  "homepage": "https://github.com/thesoumyaagrawal/Sorting-Algo-Visualizer#readme",
+  "description": ""
 }
